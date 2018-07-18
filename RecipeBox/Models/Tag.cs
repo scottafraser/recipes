@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
-namespace Registrar.Models
+namespace RecipeBox.Models
 {
     public class Tag
     {
@@ -166,7 +166,7 @@ namespace Registrar.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO tags_recipes (recipe_id, tag_id) VALUES (@recipeId, @tagId);";
+            cmd.CommandText = @"INSERT INTO recipes_tags (recipe_id, tag_id) VALUES (@recipeId, @tagId);";
 
             cmd.Parameters.AddWithValue("@tagId", this.Id);
             cmd.Parameters.AddWithValue("@recipeId", newRecipe.Id);
@@ -184,7 +184,7 @@ namespace Registrar.Models
             MySqlConnection conn = DB.Connection();
             conn.Open();
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM tags_recipes WHERE recipe_id = @recipeId AND tag_id = @tagId;";
+            cmd.CommandText = @"DELETE FROM recipes_tags WHERE recipe_id = @recipeId AND tag_id = @tagId;";
             cmd.Parameters.AddWithValue("@recipeId", newRecipe.Id);
             cmd.Parameters.AddWithValue("@tagId", this.Id);
 
@@ -202,8 +202,8 @@ namespace Registrar.Models
             conn.Open();
             MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
             cmd.CommandText = @"SELECT recipes.* FROM tags
-            JOIN tags_recipes ON (tags.id = tags_recipes.tag_id)
-            JOIN recipes ON (tags_recipes.recipe_id = recipes.id)
+            JOIN recipes_tags ON (tags.id = recipes_tags.tag_id)
+            JOIN recipes ON (recipes_tags.recipe_id = recipes.id)
             WHERE tags.id = @tagId;";
 
             cmd.Parameters.AddWithValue("@tagId", this.Id);
