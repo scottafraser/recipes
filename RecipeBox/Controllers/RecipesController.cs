@@ -27,6 +27,23 @@ namespace RecipeBox.Controllers
 
             return View(newRecipe);
         }
+
+        [HttpGet("/recipes/new")]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost("/recipes/index")]
+        public ActionResult Create(string name, string ingredients)
+        {
+            Recipe newRecipe = new Recipe(name, 0, ingredients);
+            newRecipe.Save();
+
+            return RedirectToAction("MethodForm", "Methods", new { id = newRecipe.Id });
+        }
+
+
    
     
     }

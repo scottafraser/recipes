@@ -13,7 +13,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="MySqlConnector" Version="0.42.3" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
   </ItemGroup>
@@ -23,5 +22,6 @@
     <Folder Include="Views\Recipes\" />
     <Folder Include="Views\Tags\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="Views\Methods\" />
   </ItemGroup>
 </Project>
