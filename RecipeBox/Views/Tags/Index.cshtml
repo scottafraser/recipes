@@ -1,3 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Tags Index";
+    ViewData["Title"] = "Tag Index";
 }
+
+<ul>
+@foreach (var tag in Model)
+
+{
+    <li><a href="/tags/@tag.Id/recipes">@tag.Name</a></li>
+}
+</ul>
