@@ -2,7 +2,11 @@
     ViewData["Title"] = "Recipe Index";
 }
 
+<form action="/recipes/delete" method="POST">
+        <button type="submit">Delete All Recipes</button>
+    </form>
 <ul>
+    
 @foreach (var recipe in Model)
 
 {

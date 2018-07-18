@@ -43,8 +43,22 @@ namespace RecipeBox.Controllers
             return RedirectToAction("MethodForm", "Methods", new { id = newRecipe.Id });
         }
 
+        [HttpPost("/recipes/delete")]
+        public ActionResult Delete()
+        {
+            Recipe.DeleteAll();
 
-   
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("/recipes/{id}/delete")]
+        public ActionResult Delete(int id)
+        {
+            Recipe newRecipe = Recipe.Find(id);
+            newRecipe.Delete();
+
+            return RedirectToAction("Index");
+        }
     
     }
 }

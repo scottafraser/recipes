@@ -65,8 +65,9 @@ namespace RecipeBox.Models
                 MySqlConnection conn = DB.Connection();
                 conn.Open();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"DELETE FROM recipes WHERE id = @recipeId; DELETE FROM recipes_tags WHERE recipe_id = @recipeId";
+                cmd.CommandText = @"DELETE methods.* FROM recipes JOIN methods_recipes ON (recipes.id = methods_recipes.recipe_id) JOIN methods ON (methods_recipes.method_id = methods.id) WHERE recipes.id = @recipeId; DELETE FROM recipes WHERE id = @recipeId; DELETE FROM recipes_tags WHERE recipe_id = @recipeId; DELETE FROM methods_recipes WHERE recipe_id = @recipeId;";
                 cmd.Parameters.AddWithValue("@recipeId", this.Id);
+                
                 cmd.ExecuteNonQuery();
                 conn.Close();
 
@@ -81,7 +82,7 @@ namespace RecipeBox.Models
                 MySqlConnection conn = DB.Connection();
                 conn.Open();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"DELETE FROM recipes;";
+                cmd.CommandText = @"DELETE FROM recipes; DELETE FROM methods; DELETE FROM methods_recipes; DELETE FROM recipes_tags;";
                 cmd.ExecuteNonQuery();
                 conn.Close();
                 if (conn != null)
