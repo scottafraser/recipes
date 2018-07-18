@@ -2,11 +2,18 @@
     ViewData["Title"] = "Recipe Index";
 }
 
-<ul>
-    <li>@Model.FoundRecipe.Name</li>
-    
-    <li>@Model.FoundRecipe.Ingredients</li>
 
+    <h1>@Model.FoundRecipe.Name</h1>
+
+<ul>
+    @foreach (var ingredient in Model.FoundRecipe.Ingredients.Split(','))
+    {
+    <li>@ingredient</li>
+    }
+</ul>
+
+<ul>
+    
     @foreach (var method in Model.FoundRecipe.GetMethods())
     {
         <li>@method.Step</li>

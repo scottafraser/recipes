@@ -126,7 +126,7 @@ namespace RecipeBox.Models
                 MySqlConnection conn = DB.Connection();
                 conn.Open();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"SELECT * FROM recipes;";
+                cmd.CommandText = @"SELECT * FROM recipes ORDER BY rating;";
                 var rdr = cmd.ExecuteReader() as MySqlDataReader;
                 while (rdr.Read())
                 {
