@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBox.Models;
+using RecipeBox.ViewModels;
 
 namespace RecipeBox.Controllers
 {
@@ -21,7 +22,8 @@ namespace RecipeBox.Controllers
         [HttpGet("/recipes/{id}/details")]
         public ActionResult Details(int id)
         {
-            Recipe newRecipe = Recipe.Find(id);
+            RecipeData newRecipe = new RecipeData();
+            newRecipe.FindRecipe(id);
 
             return View(newRecipe);
         }

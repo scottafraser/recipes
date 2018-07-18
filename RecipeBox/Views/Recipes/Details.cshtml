@@ -3,12 +3,20 @@
 }
 
 <ul>
-    <li>@Model.Name</li>
+    <li>@Model.FoundRecipe.Name</li>
     
-    <li>@Model.Ingredients</li>
+    <li>@Model.FoundRecipe.Ingredients</li>
+
+    @foreach (var method in Model.FoundRecipe.GetMethods())
+    {
+        <li>@method.Step</li>
+    }
     
-    <li>@Model.Method</li>
-    
-    <li>@Model.Rating</li>
+    <li>@Model.FoundRecipe.Rating</li>
 
 </ul>
+
+@foreach (var tags in Model.FoundRecipe.GetTags())
+{
+    <p>@tags.Name</p>
+}

@@ -217,10 +217,9 @@ namespace RecipeBox.Models
                 string name = rdr.GetString(1);
                 int rating = rdr.GetInt32(2);
                 string ingredients = rdr.GetString(3);
-                string method = rdr.GetString(4);
 
 
-                Recipe newRecipe = new Recipe(name, rating, ingredients, method, id);
+                Recipe newRecipe = new Recipe(name, rating, ingredients, id);
                 recipes.Add(newRecipe);
             }
             conn.Close();

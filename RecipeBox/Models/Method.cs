@@ -94,10 +94,10 @@ namespace RecipeBox.Models
             searchId.Value = Id;
             cmd.Parameters.Add(searchId);
 
-            cmd.Parameters.AddWithValue("@newStep", newStep);
+            cmd.Parameters.AddWithValue("@newStep", step);
 
             cmd.ExecuteNonQuery();
-            Step = newStep;
+            Step = step;
 
 
 
@@ -146,12 +146,12 @@ namespace RecipeBox.Models
             cmd.Parameters.Add(searchId);
 
             var rdr = cmd.ExecuteReader() as MySqlDataReader;
-            int recipeId = 0;
+            int methodId = 0;
             string step = "";
 
             while (rdr.Read())
             {
-                recipeId = rdr.GetInt32(0);
+                methodId = rdr.GetInt32(0);
                 step = rdr.GetString(1);
             }
 

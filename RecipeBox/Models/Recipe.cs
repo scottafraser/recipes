@@ -12,14 +12,12 @@ namespace RecipeBox.Models
             public string Name { get; set; }
             public int Rating { get; set; }
             public string Ingredients { get; set; }
-            public string Method { get; set; }
 
-            public Recipe(string name, int rating, string ingredients, string method, int id = 0)
+            public Recipe(string name, int rating, string ingredients, int id = 0)
             {
                 Name = name;
                 Rating = rating;
                 Ingredients = ingredients;
-                Method = method;
                 Id = id;
             }
 
@@ -37,8 +35,7 @@ namespace RecipeBox.Models
                     bool NameEquality = Name == newRecipe.Name;
                     bool RatingEquality = Rating == newRecipe.Rating;
                     bool IngredientsEquality = Ingredients == newRecipe.Ingredients;
-                    bool MethodEquality = Method == newRecipe.Method;
-                    return (idEquality && NameEquality && RatingEquality && IngredientsEquality && MethodEquality);
+                    return (idEquality && NameEquality && RatingEquality && IngredientsEquality);
                 }
             }
 
@@ -48,12 +45,11 @@ namespace RecipeBox.Models
                 conn.Open();
 
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"INSERT INTO recipes (name, rating, ingredients, method) VALUES (@Name, @Rating, @Ingredients, @Method);";
+                cmd.CommandText = @"INSERT INTO recipes (name, rating, ingredients) VALUES (@Name, @Rating, @Ingredients);";
 
                 cmd.Parameters.AddWithValue("@Name", this.Name);
                 cmd.Parameters.AddWithValue("@Rating", this.Rating);
                 cmd.Parameters.AddWithValue("@Ingredients", this.Ingredients);
-                cmd.Parameters.AddWithValue("@Method", this.Method);
 
                 cmd.ExecuteNonQuery();
                 Id = (int)cmd.LastInsertedId;
@@ -94,12 +90,12 @@ namespace RecipeBox.Models
                 }
             }
 
-            public void Edit(string newName, int newRating, string newIngredients, string newMethod)
+            public void Edit(string newName, int newRating, string newIngredients)
             {
                 MySqlConnection conn = DB.Connection();
                 conn.Open();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"UPDATE recipes SET name = @newName, rating = @newRating, ingredients = @newIngredients, method = @newMethod WHERE id = @searchId;";
+                cmd.CommandText = @"UPDATE recipes SET name = @newName, rating = @newRating, ingredients = @newIngredients WHERE id = @searchId;";
 
                 MySqlParameter searchId = new MySqlParameter();
                 searchId.ParameterName = "@searchId";
@@ -109,7 +105,6 @@ namespace RecipeBox.Models
                 cmd.Parameters.AddWithValue("@newName", newName);
                 cmd.Parameters.AddWithValue("@newRating", newRating);
                 cmd.Parameters.AddWithValue("@newIngredients", newIngredients);
-                cmd.Parameters.AddWithValue("@newMethod", newMethod);
 
                 cmd.ExecuteNonQuery();
                 Name = newName;
@@ -139,10 +134,9 @@ namespace RecipeBox.Models
                     string name = rdr.GetString(1);
                     int rating = rdr.GetInt32(2);
                     string ingredients = rdr.GetString(3);
-                    string method = rdr.GetString(4);
 
 
-                    Recipe newRecipe = new Recipe(name, rating, ingredients, method, id);
+                    Recipe newRecipe = new Recipe(name, rating, ingredients, id);
                     allRecipes.Add(newRecipe);
                 }
                 conn.Close();
@@ -170,7 +164,6 @@ namespace RecipeBox.Models
                 string name = "";
                 int rating = 0;
                 string ingredients = "";
-                string method = "";
 
                 while (rdr.Read())
                 {
@@ -178,10 +171,9 @@ namespace RecipeBox.Models
                     name = rdr.GetString(1);
                     rating = rdr.GetInt32(2);
                     ingredients = rdr.GetString(3);
-                    method = rdr.GetString(4);
                 }
 
-                Recipe newRecipe = new Recipe(name, rating, ingredients, method, recipeId);
+                Recipe newRecipe = new Recipe(name, rating, ingredients, recipeId);
                 conn.Close();
                 if (conn != null)
                 {
@@ -201,6 +193,24 @@ namespace RecipeBox.Models
 
                 cmd.Parameters.AddWithValue("@recipeId", this.Id);
                 cmd.Parameters.AddWithValue("@tagId", newTag.Id);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                if (conn != null)
+                {
+                    conn.Dispose();
+                }
+            }
+
+            public void AddMethod(Method newMethod)
+            {
+                MySqlConnection conn = DB.Connection();
+                conn.Open();
+                var cmd = conn.CreateCommand() as MySqlCommand;
+                cmd.CommandText = @"INSERT INTO methods_recipes (method_id, recipe_id) VALUES (@methodId, @recipeId);";
+
+                cmd.Parameters.AddWithValue("@methodId", Id);
+                cmd.Parameters.AddWithValue("@recipeId", newMethod.Id);
 
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -233,9 +243,9 @@ namespace RecipeBox.Models
                 conn.Open();
                 MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
                 cmd.CommandText = @"SELECT tags.* FROM recipes
-            JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id)
-            JOIN tags ON (recipes_tags.tag_id = tags.id)
-            WHERE recipes.id = @recipeId;";
+                JOIN recipes_tags ON (recipes.id = recipes_tags.recipe_id)
+                JOIN tags ON (recipes_tags.tag_id = tags.id)
+                WHERE recipes.id = @recipeId;";
 
                 cmd.Parameters.AddWithValue("@recipeId", this.Id);
 
@@ -257,6 +267,38 @@ namespace RecipeBox.Models
                     conn.Dispose();
                 }
                 return tags;
+            }
+
+            public List<Method> GetMethods()
+            {
+                MySqlConnection conn = DB.Connection();
+                conn.Open();
+                MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+                cmd.CommandText = @"SELECT methods.* FROM recipes
+                JOIN methods_recipes ON (recipes.id = methods_recipes.recipe_id)
+                JOIN methods ON (methods_recipes.method_id = methods.id)
+                WHERE recipes.id = @recipeId;";
+
+                cmd.Parameters.AddWithValue("@recipeId", this.Id);
+
+                MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+                List<Method> methods = new List<Method> { };
+
+                while (rdr.Read())
+                {
+                    int id = rdr.GetInt32(0);
+                    string step = rdr.GetString(1);
+
+
+                    Method newMethod = new Method(step, id);
+                    methods.Add(newMethod);
+                }
+                conn.Close();
+                if (conn != null)
+                {
+                    conn.Dispose();
+                }
+                return methods;
             }
         }
     }
