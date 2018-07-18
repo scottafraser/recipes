@@ -99,7 +99,7 @@ namespace RecipeBox.Models
                 MySqlConnection conn = DB.Connection();
                 conn.Open();
                 var cmd = conn.CreateCommand() as MySqlCommand;
-                cmd.CommandText = @"UPDATE items SET name = @newName, rating = @newRating, ingredients = @newIngredients, method = @newMethod WHERE id = @searchId;";
+                cmd.CommandText = @"UPDATE recipes SET name = @newName, rating = @newRating, ingredients = @newIngredients, method = @newMethod WHERE id = @searchId;";
 
                 MySqlParameter searchId = new MySqlParameter();
                 searchId.ParameterName = "@searchId";
