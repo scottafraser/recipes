@@ -14,7 +14,17 @@ namespace RecipeBox.Controllers
         [HttpGet("/recipes/index")]
         public ActionResult Index()
         {
-            List<Recipe> allRecipes = Recipe.GetAll();
+            RecipeData allRecipes = new RecipeData();
+
+            return View(allRecipes);
+        }
+
+        [HttpGet("/recipes/search")]
+        public ActionResult Search(string searchBy)
+        {
+            List<Recipe> allRecipes = new List<Recipe>();
+            Recipe foundRecipe = Recipe.FindByIngredient("%" + searchBy + "%");
+            allRecipes.Add(foundRecipe);
 
             return View(allRecipes);
         }

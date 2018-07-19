@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Recipe Index";
+}
+
+
+<div class="searchPage">
+<ul>
+ @foreach (var recipe in Model)
+        {
+            <li><a href="/recipes/@recipe.Id/details">@recipe.Name</a></li>
+        }
+</ul>
+</div>

@@ -2,15 +2,28 @@
     ViewData["Title"] = "Recipe Index";
 }
 
+
+<div class="list-box">
 <form action="/recipes/delete" method="POST">
         <button type="submit">Delete All Recipes</button>
     </form>
 <ul>
     
-@foreach (var recipe in Model)
+@foreach (var recipe in Model.AllRecipes)
 
 {
     <li><a href="/recipes/@recipe.Id/details">@recipe.Name</a></li>
 }
 
 </ul>
+</div>
+
+<div class="search-box">
+      <form action="/recipes/search" method="Get">
+        <div class='form-group'>
+            <label for='searchBy'><h4>Search By Ingredient</h4></label>
+            <input name='searchBy' type="text" class='form-control' required>
+       </div>
+      <button type="submit">Search</button>
+    </form>
+</div>

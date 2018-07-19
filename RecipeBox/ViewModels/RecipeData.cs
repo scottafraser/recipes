@@ -9,6 +9,7 @@ namespace RecipeBox.ViewModels
         public List<Recipe> AllRecipes { get; set; }
         public List<Tag> AllTags { get; set; }
         public List<Method> AllMethods { get; set; }
+
         public Recipe FoundRecipe { get;  set; }
         public Tag FoundTag { get; set; }
         public Method FoundMethod { get; set; }
@@ -34,7 +35,6 @@ namespace RecipeBox.ViewModels
         {
             FoundMethod = Method.Find(id);
         }
-
 
     }
 }

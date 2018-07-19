@@ -66,3 +66,12 @@ textarea {
 .ingredient-box {
     height: 400px;
 }
+
+a:hover {
+    color: hotpink
+}
+
+a {
+    color: black;
+    font-style: italic;
+}

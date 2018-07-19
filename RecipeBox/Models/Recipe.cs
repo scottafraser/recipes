@@ -148,6 +148,7 @@ namespace RecipeBox.Models
                 return allRecipes;
             }
 
+
             public static Recipe Find(int id)
             {
                 MySqlConnection conn = DB.Connection();
@@ -183,6 +184,42 @@ namespace RecipeBox.Models
 
                 return newRecipe;
             }
+
+                public static Recipe FindByIngredient(string searchBy)
+                {
+                    MySqlConnection conn = DB.Connection();
+                    conn.Open();
+                    var cmd = conn.CreateCommand() as MySqlCommand;
+                    cmd.CommandText = @"SELECT * FROM recipes WHERE ingredients LIKE @searchBy;";
+
+                    MySqlParameter newSearch = new MySqlParameter();
+                    newSearch.ParameterName = "@searchBy";
+                    newSearch.Value = searchBy;
+                    cmd.Parameters.Add(newSearch);
+
+                    var rdr = cmd.ExecuteReader() as MySqlDataReader;
+                    int recipeId = 0;
+                    string name = "";
+                    int rating = 0;
+                    string ingredients = "";
+
+                    while (rdr.Read())
+                    {
+                        recipeId = rdr.GetInt32(0);
+                        name = rdr.GetString(1);
+                        rating = rdr.GetInt32(2);
+                        ingredients = rdr.GetString(3);
+                    }
+
+                    Recipe newRecipe = new Recipe(name, rating, ingredients, recipeId);
+                    conn.Close();
+                    if (conn != null)
+                    {
+                        conn.Dispose();
+                    }
+
+                    return newRecipe;
+                }
 
 
             public void AddTag(Tag newTag)
