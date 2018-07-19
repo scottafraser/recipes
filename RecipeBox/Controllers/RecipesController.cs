@@ -35,10 +35,13 @@ namespace RecipeBox.Controllers
         }
 
         [HttpPost("/recipes/index")]
-        public ActionResult Create(string name, string ingredients)
+        public ActionResult Create(string name, string ingredients, string tags)
         {
             Recipe newRecipe = new Recipe(name, 0, ingredients);
             newRecipe.Save();
+            Tag newTag = new Tag(tags, newRecipe.Id);
+            newTag.Save();
+            newRecipe.AddTag(newTag);
 
             return RedirectToAction("MethodForm", "Methods", new { id = newRecipe.Id });
         }

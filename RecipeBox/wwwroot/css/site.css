@@ -14,7 +14,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 50%;
 }
 
 
@@ -60,6 +60,9 @@ textarea {
     padding: 100px;
     align-content: center;
     justify-content: center;
-    
-    
+      
+}
+
+.ingredient-box {
+    height: 400px;
 }
