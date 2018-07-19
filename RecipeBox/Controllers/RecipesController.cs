@@ -59,6 +59,15 @@ namespace RecipeBox.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost("/recipes/{id}/rate")]
+        public ActionResult Delete(int id, int rate)
+        {
+            Recipe newRecipe = Recipe.Find(id);
+            newRecipe.Edit(newRecipe.Name, rate, newRecipe.Ingredients );
+
+            return RedirectToAction("Details", new { id = newRecipe.Id });
+        }
     
     }
 }

@@ -76,6 +76,20 @@
     <span class="fa fa-star checked"></span>
  }
 
+
+
+ <form action="/recipes/@Model.FoundRecipe.Id/rate" method="POST">
+  <select name="rate">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+  <br><br>
+  <button type="submit">Rate Recipe</button>
+</form>
+
  <form action="/recipes/@Model.FoundRecipe.Id/delete" method="POST">
         <button type="submit">Delete Recipe</button>
  </form>
