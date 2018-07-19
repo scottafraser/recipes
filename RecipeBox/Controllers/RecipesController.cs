@@ -19,15 +19,6 @@ namespace RecipeBox.Controllers
             return View(allRecipes);
         }
 
-        [HttpGet("/recipes/search")]
-        public ActionResult Search(string searchBy)
-        {
-            List<Recipe> allRecipes = new List<Recipe>();
-            Recipe foundRecipe = Recipe.FindByIngredient("%" + searchBy + "%");
-            allRecipes.Add(foundRecipe);
-
-            return View(allRecipes);
-        }
 
         [HttpGet("/recipes/{id}/details")]
         public ActionResult Details(int id)
@@ -49,9 +40,12 @@ namespace RecipeBox.Controllers
         {
             Recipe newRecipe = new Recipe(name, 0, ingredients);
             newRecipe.Save();
-            Tag newTag = new Tag(tags, newRecipe.Id);
-            newTag.Save();
-            newRecipe.AddTag(newTag);
+            if (tags != null)
+            {
+                Tag newTag = new Tag(tags, newRecipe.Id);
+                newTag.Save();
+                newRecipe.AddTag(newTag);
+            }
 
             return RedirectToAction("MethodForm", "Methods", new { id = newRecipe.Id });
         }
@@ -80,6 +74,16 @@ namespace RecipeBox.Controllers
             newRecipe.Edit(newRecipe.Name, rate, newRecipe.Ingredients );
 
             return RedirectToAction("Details", new { id = newRecipe.Id });
+        }
+
+
+        [HttpGet("/recipes/search")]
+        public ActionResult Search(string searchBy)
+        {
+            List<Recipe> allRecipes = Recipe.FindByIngredient("%" + searchBy + "%");
+
+
+            return View(allRecipes);
         }
     
     }

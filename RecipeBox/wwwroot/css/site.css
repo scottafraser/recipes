@@ -1,4 +1,6 @@
-﻿body {
+﻿
+
+body {
     padding-top: 50px;
     padding-bottom: 20px
 }
@@ -11,11 +13,6 @@
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 50%;
-}
 
 
 /* Hide/rearrange for smaller screens */
@@ -68,10 +65,33 @@ textarea {
 }
 
 a:hover {
-    color: hotpink
+    color: white;
 }
 
 a {
     color: black;
-    font-style: italic;
+    
 }
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%
+}
+
+.recipe-form{
+    padding: 40px;
+    display: flex;
+    align-content: center;
+    justify-content:center;
+    text-align: left;
+}
+
+.recipe-details {
+    display: flex;
+    padding: 100px;
+    justify-content: space-around;
+
+}
+

@@ -2,21 +2,23 @@
    ViewData["Title"] = "Create Method";
 }
 
-<h1>@Model.FoundRecipe.Name</h1>
+<div class="recipe-form">
+    <h1>@Model.FoundRecipe.Name</h1>
 
-<form action="/recipes/@Model.FoundRecipe.Id/methods/new" method="post">
-    <h1>Add a step!</h1>
-    <div class='form-group'>
-        <label for='step'><h4>Step</h4></label>
-        <input name='step' type="text" class='form-control' required>
-    </div>
-    <button type="submit" class="btn btn-lg btn-info">Add Another Step</button> 
-</form>
-<a href="/recipes/@Model.FoundRecipe.Id/details" class="btn btn-success"=>Finish Adding Steps!</a>
-<h1>Current Steps:</h1>
-<ul>
-@foreach (var method in Model.FoundRecipe.GetMethods())
-{
-    <li>@method.Step</li>
-}
-</ul>
+    <form action="/recipes/@Model.FoundRecipe.Id/methods/new" method="post">
+        <h1>Add a step!</h1>
+        <div class='form-group'>
+            <label for='step'><h4>Step</h4></label>
+            <input name='step' type="text" class='form-control' required>
+        </div>
+        <button type="submit" class="btn btn-lg btn-info">Add Another Step</button> 
+    </form>
+    <a href="/recipes/@Model.FoundRecipe.Id/details" class="btn btn-success">Finish Adding Steps!</a>
+    <h1>Current Steps:</h1>
+    <ul>
+    @foreach (var method in Model.FoundRecipe.GetMethods())
+    {
+        <li>@method.Step</li>
+    }
+    </ul>
+</div>

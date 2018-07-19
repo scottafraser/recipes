@@ -2,8 +2,12 @@
     ViewData["Title"] = "Create Recipe";
 }
 
+<div class="recipe-form">
 <form action="/recipes/index" method="post">
     <h1>Create A New Recipe</h1>
+        <br>
+        <img src="~/images/plate.jpg">
+        <br>
     <div class='form-group'>
         <label for='name'><h4>Recipe Name</h4></label>
         <input name='name' type="text" class='form-control' required>
@@ -18,5 +22,6 @@
     </div>
     <button type="submit" class="btn btn-lg btn-info">Add Steps Now!</button> 
 </form>
+</div>
 
 
